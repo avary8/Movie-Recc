@@ -281,7 +281,9 @@ void homeScreen::numResults() {
 }	
 
 void homeScreen::searchCB(Fl_Widget* starX, void* data) {
+	cout << "search CB\n";
 	primary::getResults();
+	cout << "after getResults\n";
 	primary::setBuff();
 	Fl_Window* window = new Fl_Window(800, 600, "Results");
 	window->begin();

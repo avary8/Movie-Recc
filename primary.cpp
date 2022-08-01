@@ -49,8 +49,6 @@ void primary::LoadRatings(string filename) {
     return;
 }
 
-
-//error somewhere in here
 void primary::LoadData(string filename) {
     primary::LoadRatings("ratings2.csv");
 
@@ -66,12 +64,14 @@ void primary::LoadData(string filename) {
             stringstream ss(line);
 
             string s;
-            Movie* temp = new Movie;
-            string year = "";
+            Movie* temp = new Movie; 
+            //string year = "";
 
             getline(stream, temp->movieID, ',');
             getline(stream, temp->title, '(');
-            getline(stream, year, ')');
+            getline(stream, temp->year, ')');
+
+            //cout << temp.movieID << " : " << temp.title << " : " << temp.year << endl;
             
             /*cout << m.size() << " : begin year:" << year << endl;
             if (year == "" || year == "no genres listed") {
@@ -96,15 +96,15 @@ void primary::LoadData(string filename) {
             */
             
             //cout << "result year: " << year << endl;
-            temp->year = year;
-            getline(stream, temp->genre, ',');
-            getline(stream, temp->genre, ',');
+            //temp->year = year;
 
+            getline(stream, temp->genre, ',');
+            getline(stream, temp->genre, ',');
 
             temp->genres = getGenres(temp->genre, "|");
             temp->avgRating = l.Rating(temp->movieID);
+            
             m.push_back(temp);
-
         }
 
         File.close();
@@ -175,22 +175,33 @@ int primary::r(string s) {
 
 
 void primary::getResults() {
+    cout << "in getREsults\n";
+
     string genre = homeScreen::getGenre();
     int start_year = homeScreen::getYearMin(); //1995 - 2017
     int end_year = homeScreen::getYearMax();
     int minStars = homeScreen::getStars();
     int numResults = homeScreen::getNumResults();
     //for (int i = 0; i < m.size(); i++) {
-    for (int i = 0; i < 500; i++) {
+    cout << "before for\n";
+
+    for (int i = 0; i < m.size(); i++) {
         //GRating(m[i], l);
         /*Movie* temp = m[i];
         temp->avgRating = l.Rating(temp->movieID);*/
-        cout << "m[" << i << "]->year : " << m[i]->year << endl;
-        if (stoi(m[i]->year) >= start_year && stoi(m[i]->year) <= end_year && m[i]->avgRating >= minStars
-            && count(m[i]->genres.begin(), m[i]->genres.end(), genre)){
-        /*if (m[i]->year >= start_year && m[i]->year <= end_year && m[i]->avgRating >= minStars
-            && count(m[i]->genres.begin(), m[i]->genres.end(), genre)) {*/
-            MovieRanker.push(m[i]);
+        //cout << "m[" << i << "]->year : " << m[i]->year << endl;
+        //cout << m->at(0)->genres[0] << endl;
+        cout << m[i]->genres[0] << endl;
+
+        /*if (stoi(m->at(0)->year) >= start_year && stoi(m->at(0)->year) <= end_year && m->at(0)->avgRating >= minStars
+            && count(m->at(0)->genres.begin(), m->at(0)->genres.end(), genre)) {*/
+        if ((m[i]->year.size() == 4) && (((m[i]->year.at(0) == '1' && m[i]->year.at(1) == '9' && m[i]->year.at(2) == '9')) || (m[i]->year.at(0) == '2' && m[i]->year.at(1) == '0'))) {
+            if (stoi(m[i]->year) >= start_year && stoi(m[i]->year) <= end_year && m[i]->avgRating >= minStars
+                && count(m[i]->genres.begin(), m[i]->genres.end(), genre)) {
+                /*if (m[i]->year >= start_year && m[i]->year <= end_year && m[i]->avgRating >= minStars
+                    && count(m[i]->genres.begin(), m[i]->genres.end(), genre)) {*/
+                MovieRanker.push(m[i]);
+            }
         }
     }
 }

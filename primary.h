@@ -10,11 +10,14 @@ using namespace std;
 
 class Compare {
 public:
-    bool operator() (const Movie* left, const Movie* right) { return left->avgRating < right->avgRating; }
+    bool operator() (Movie* left, Movie* right) {
+        return left->avgRating < right->avgRating;
+    /*bool operator() (const Movie* left, const Movie* right) { return left->avgRating < right->avgRating;*/ }
 };
 
 class primary {
 public:
+    primary() {};
     static void LoadRatings(string filename);
     static void LoadData(string filename);
 

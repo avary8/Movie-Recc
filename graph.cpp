@@ -30,8 +30,8 @@
 using namespace std;
 
 int main(){
-    vector<Movie*> m = primary::getMovie();
-    AdjacencyList l = primary::getList();
+    //vector<Movie*>* m = &primary::getMovie();
+    //AdjacencyList l = primary::getList();
     priority_queue<Movie*, vector<Movie*>, Compare> MovieRanker = primary::getMovieRanker();
     //priority_queue<Movie, vector<Movie>, greater<Movie>> MovieRanker = primary::getMovieRanker();
     primary::LoadData("movies.csv");
@@ -80,6 +80,7 @@ int main(){
     homeScreen::year();
     homeScreen::rating();
     homeScreen::numResults();
+    cout << "before searchButton()\n";
     homeScreen::SearchButton();
     cout << "here";
     /*if (homeScreen::getSearch()) {
