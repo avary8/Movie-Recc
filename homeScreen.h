@@ -13,7 +13,6 @@
 #include <FL/Fl_Toggle_Button.H>
 #include <FL/Fl_Output.H>
 #include <FL/Fl_Value_Slider.H>
-//#include <FL/Fl_Text_Display.H>
 #include <string>
 #include <iostream>
 #include <vector>;
@@ -21,6 +20,15 @@ using namespace std;
 
 class homeScreen {
 public:
+	static void init();
+	static string getGenre(){return genreInput;}
+	static int getStars(){return starsInput;}
+	static int getYearMin() {return yearMinInput;}
+	static int getYearMax(){return yearMaxInput;}
+	static int getNumResults(){return numResultsInput;}
+
+private:	
+	//on screen displays
 	static void title();
 	static void keyword();
 	static void genre();
@@ -28,25 +36,19 @@ public:
 	static void rating();
 	static void numResults();
 	static void SearchButton();
-	static bool getSearch() {return search;}
-	static string getGenre(){return genreInput;}
-	static int getStars(){return starsInput;}
-	static int getYearMin() {if (yearMinInput == 0) { return 1995; } return yearMinInput;}
-	static int getYearMax(){if (yearMinInput == 0) { return 2017; } return yearMaxInput;}
-	static int getNumResults(){return numResultsInput;}
 
-private:	
-	static void keywordCB(Fl_Widget* input);
-	static void boxCB(Fl_Widget* input, void* data);
+	//callback function (what to do when button is pressed)
+	static void keywordCB(Fl_Widget* input, void* data);
 	static void genreCB(Fl_Widget* input);
 	static void yearCB(Fl_Widget* input, void* data);
-	static void starOn(Fl_Widget* starx, void* data);
-	static void stars(Fl_Widget* starX, void* data);
+	static void starChange(Fl_Widget* starx, void* data);
+	static void starsCB(Fl_Widget* starX, void* data);
 	static void sliderCB(Fl_Widget* slider);
 	static void searchCB(Fl_Widget* search, void* data);
+
+	//variables
 	static vector <Fl_Toggle_Button*> buttons;
 	static vector <string> genres; 
-	static bool search;
 	static int toggle;
 	static int starsInput;
 	static string genreInput;

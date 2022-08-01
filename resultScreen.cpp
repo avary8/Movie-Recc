@@ -13,7 +13,7 @@ void resultScreen::init() {
 	title();
 	topText();
 
-	Fl_Text_Display* display = new Fl_Text_Display(0, 80, 800, 600);
+	Fl_Text_Display* display = new Fl_Text_Display(0, 80, 800, 590);
 	Fl_Text_Buffer* buffer = new Fl_Text_Buffer();
 	display->buffer(buffer);	
 	display->box(FL_NO_BOX);
