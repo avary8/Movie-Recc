@@ -6,11 +6,11 @@ using namespace std;
 #define STRUCT_HEADER
 
 struct Movie {
-    string movieID;
-    string title;
-    string year;
-    string genre;
+    string movieID = "";
+    string title = "";
+    string year = 0;
+    string genre = "";
     vector <string> genres;
-    int avgRating;
+    int avgRating = 0;
 };
 #endif //STRUCT_HEADER //end header guard

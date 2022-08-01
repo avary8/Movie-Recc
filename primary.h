@@ -19,7 +19,7 @@ public:
     static void LoadData(string filename);
 
     static vector<string> getGenres(string s, string delim);
-    static int GRating(Movie* m, AdjacencyList& l);
+    static int GRating(Movie* m);
     static void Print(Movie& m);
     static int r_helper(AdjacencyList& l, string s);
     static int r(string s);  

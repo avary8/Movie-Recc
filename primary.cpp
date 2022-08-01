@@ -6,15 +6,9 @@
 #include <sstream>
 #include "movie.h"
 #include "primary.h"
-#include "AdjacencyList.h"
 #include "homeScreen.h"
 #include "resultScreen.h"
 using namespace std; 
-#include <random>
-std::random_device rd; // obtain a random number from hardware
-std::mt19937 gen(rd()); // seed the generator
-std::uniform_int_distribution<> distr(0, 5); // define the range
-
 vector<Movie*> primary::m;
 AdjacencyList primary::l;
 priority_queue<Movie*, vector<Movie*>, Compare> primary::MovieRanker;
@@ -42,12 +36,12 @@ void primary::LoadRatings(string filename) {
             getline(stream, from, ',');
             getline(stream, to, ',');
             getline(stream, wt);
-
-            l.buildoutgoing(from, to, wt);
-
-
+            //cout << "movie: " << to << " to: " << from << endl;
+            //l.buildoutgoing(from, to, wt);
+            l.buildingoing(to, from, wt);
         }
         File.close();
+        cout << "closed";
     }
     else {
         cout << "Error: " << filename << "could not be opened!" << endl;
@@ -55,7 +49,11 @@ void primary::LoadRatings(string filename) {
     return;
 }
 
+
+//error somewhere in here
 void primary::LoadData(string filename) {
+    primary::LoadRatings("ratings2.csv");
+
     //AdjacencyList l;
     ifstream File(filename, ios::in);
     if (File.is_open()) {
@@ -68,11 +66,11 @@ void primary::LoadData(string filename) {
             stringstream ss(line);
 
             string s;
-            Movie temp;
-            string year;
+            Movie* temp = new Movie;
+            string year = "";
 
-            getline(stream, temp.movieID, ',');
-            getline(stream, temp.title, '(');
+            getline(stream, temp->movieID, ',');
+            getline(stream, temp->title, '(');
             getline(stream, year, ')');
             
             /*cout << m.size() << " : begin year:" << year << endl;
@@ -98,15 +96,14 @@ void primary::LoadData(string filename) {
             */
             
             //cout << "result year: " << year << endl;
-            temp.year = year;
-            getline(stream, temp.genre, ',');
-            getline(stream, temp.genre, ',');
+            temp->year = year;
+            getline(stream, temp->genre, ',');
+            getline(stream, temp->genre, ',');
 
 
-            temp.genres = getGenres(temp.genre, "|");
-            //temp.avgRating = l.Rating(temp.movieID);
-            temp.avgRating = distr(gen);
-            m.push_back(&temp);
+            temp->genres = getGenres(temp->genre, "|");
+            temp->avgRating = l.Rating(temp->movieID);
+            m.push_back(temp);
 
         }
 
@@ -135,7 +132,7 @@ vector<string> primary::getGenres(string s, string delim) {
 
 
 
-int primary::GRating(Movie* m, AdjacencyList& l) {
+int primary::GRating(Movie* m) {
     // AdjacencyList l;
 
     double avgReview = 0;
